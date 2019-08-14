@@ -1,0 +1,155 @@
+.banner-content .input-wrap .form-box {
+  padding: 0 !important;
+  border-radius: 0.625rem;
+  overflow: hidden;
+  padding: 0;
+  box-shadow: 0 12px 30px -3px #3389bb;
+  max-width: 700px; }
+.banner-content .input-wrap .form-control {
+  padding: 7px 20px;
+  font-size: 25px;
+  height: auto;
+  text-align: center; }
+.banner-content .input-wrap .search-btn {
+  left: 0px;
+  padding: 8px 14px;
+  font-size: 20px;
+  font-weight: bold; }
+
+.primary-btn.transparent {
+  border-radius: 0.625rem;
+  font-weight: bold;
+  letter-spacing: 1.5px; }
+
+#header.header-scrolled {
+  background: rgba(43, 112, 161, 0.95); }
+
+.about-area.section-gap .img-fluid {
+  border-radius: 0.625rem;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.4); }
+
+.courses-area {
+  background: linear-gradient(-45deg, #38b9c6 0%, #3279bb 100%);
+  color: #ffffff; }
+  .courses-area h1 {
+    color: #ffffff; }
+  .courses-area .courses-right {
+    border-radius: 0.652rem;
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3); }
+    .courses-area .courses-right li {
+      border-radius: 0.652rem;
+      background: #edf3f8; }
+
+.feature-item {
+  background: #3279bb;
+  border-radius: 0.652rem;
+  color: #fff; }
+  .feature-item i {
+    color: #ffffff; }
+  .feature-item h4 {
+    color: #ffffff; }
+  .feature-item:hover {
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.4);
+    color: #000000; }
+    .feature-item:hover i {
+      color: #000000; }
+    .feature-item:hover h4 {
+      color: #000000; }
+
+.faculty-area {
+  background: linear-gradient(45deg, #38b9c6 0%, #3279bb 100%);
+  color: #ffffff; }
+  .faculty-area h1 {
+    color: #ffffff; }
+  .faculty-area .thumb .img-fluid {
+    border-radius: 50%;
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2); }
+  .faculty-area .meta-text {
+    color: #666;
+    border-radius: 0.652rem;
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3); }
+
+.testimonials-area {
+  display: none; }
+  .testimonials-area .owl-thumb-item * {
+    border-radius: 50%; }
+
+.nav-menu a {
+  position: relative; }
+  .nav-menu a::before {
+    content: "";
+    height: 2px;
+    width: 0%;
+    position: absolute;
+    background: #ffffff;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -5px;
+    transition: all 0.1s ease; }
+  .nav-menu a:hover::before {
+    width: 100%; }
+.nav-menu ul {
+  top: 15px;
+  border-radius: 0.652rem;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2); }
+  .nav-menu ul li {
+    border-radius: 0.652rem; }
+    .nav-menu ul li:hover {
+      background: rgba(0, 0, 0, 0.02); }
+
+.footer-area {
+  background: #2b70a1;
+  color: #fff; }
+  .footer-area .single-footer-widget ul li a {
+    color: #ffffff;
+    text-align: center;
+    position: relative; }
+    .footer-area .single-footer-widget ul li a::before {
+      content: "";
+      height: 2px;
+      width: 0%;
+      position: absolute;
+      background: #ffffff;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -5px;
+      transition: all 0.1s ease; }
+    .footer-area .single-footer-widget ul li a:hover::before {
+      width: 100%; }
+  .footer-area .form-inline {
+    overflow: hidden; }
+  .footer-area .single-footer-widget input {
+    border-radius: 0.652rem;
+    margin-right: 5px; }
+  .footer-area .single-footer-widget .click-btn {
+    border-radius: 0.652rem; }
+  .footer-area .footer-bottom .footer-social a {
+    background: rgba(0, 0, 0, 0.28);
+    border-radius: 50%; }
+
+.search-header-area {
+  padding: 50px;
+  padding-top: 150px;
+  text-align: center;
+  background: rgba(0, 149, 255, 0.8588235294);
+  margin-bottom: 50px;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.3); }
+  .search-header-area .title {
+    color: #fff;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1em;
+    margin-bottom: 20px; }
+  .search-header-area input {
+    max-width: 500px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    text-align: center;
+    border-radius: 2rem; }
+
+.search-results-area {
+  margin: 50px 0; }
+
+/*# sourceMappingURL=style.css.map */
