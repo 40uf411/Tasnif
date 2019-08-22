@@ -1,19 +1,5 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "madjidsmail";
-$database="laliste";
-
-
-
-
-
-if (isset($_GET['page'])) {
-    $page = $_GET['page'];
-} else {
-    $page = 1;
-}
-
-
-
-?>
+$username = "admin";
+$password = "P@s$0147";
+$database="TheSearch";
