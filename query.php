@@ -1,3 +1,239 @@
+<?php
+
+
+
+error_reporting(-1);
+ini_set('display_errors', 'On');
+include('conf/config.php');
+
+/////////////////
+
+$output = "";
+// Create connection
+$conn   = mysqli_connect($servername, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+//------------------------------
+
+
+$page = 1;
+if (!empty($_GET['page'])) {
+    $page = $_GET['page'];
+    if (false === $page) {
+        // $page = 1;
+    }
+}
+
+$search="";
+if (isset($_GET['search'])) {
+    $searchq = $_GET['search'];
+    
+    if (isset($_GET['class'])) {
+        $class = $_GET['class'];
+        
+
+        
+        if ($class == 'ALL') {
+            $_class = "";
+        } else {
+            
+            $_class = " category = '$class' AND ";
+        }
+        
+    }
+     
+    $count_per_page = 20;
+    $items_per_page = 20;
+    $offset         = ($page - 1) * $items_per_page;
+    
+    if ($_GET['class'] == 'ALL') {
+        $query_phrase1 = "SELECT* FROM magazines WHERE titre LIKE '%$searchq%' OR publisher LIKE '%$searchq%'";
+        $query_phrase  = "SELECT* FROM magazines WHERE titre LIKE '%$searchq%' OR publisher LIKE '%$searchq%' LIMIT " . $offset . " ," . $items_per_page;
+    } else {
+        
+        
+        $query_phrase1 = "SELECT* FROM magazines WHERE  $_class (titre LIKE '%$searchq%' OR publisher LIKE '%$searchq%'  )";
+        $query_phrase  = "SELECT* FROM magazines WHERE  $_class (titre LIKE '%$searchq%' OR publisher LIKE '%$searchq%') LIMIT " . $offset . " ," . $items_per_page;
+    }
+    
+    $query1 = mysqli_query($conn, $query_phrase1) or die("Can't execute Query");
+    $query = mysqli_query($conn, $query_phrase) or die("Can't execute Query");
+    //~ $query_phrase  ="SELECT * FROM magazines  WHERE MATCH (titre, publisher) AGAINST ('.$searchq.' IN NATURAL LANGUAGE MODE) LIMIT 0 , 50 ;";
+    //~ $query =mysqli_query( $conn, $query_phrase) or die("Can't execute Query") ;
+    $count2     = mysqli_num_rows($query1);
+    $count      = mysqli_num_rows($query);
+    $total_page = intval($count2 / $items_per_page) + 2;
+
+    if ($count == 0) {
+        $output = "there is no search result
+  <h2>Suggestions</h2>
+
+<h6> Check your spelling </h6>
+<h6>Try more general search query </h6>
+<h6>Try different keywords </h6>
+<h6>Browse Journal Rankings </h6>";
+    } else {
+        
+    }
+    while ($row = mysqli_fetch_array($query)) {
+        
+        
+        $title     = $row['titre'];
+        $ID        = $row['id'];
+        $publisher = $row['publisher'];
+        $ISSN      = $row['issn'];
+        $ESSN      = $row['essn'];
+        $FolderN   = $row['foldername'];
+        $CLASSE    = $row['category'];
+        $URL       = $row['url'];
+        if (true) {
+            $q   = str_replace(" ", "+", $title);
+            $URL = "https://www.scimagojr.com/journalsearch.php?q=" . $q;
+            //~ echo $URL;
+        }
+        
+        $output .= '
+
+    <div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">' . $title . '</h5>
+        <p class="card-text">
+            <p class="class">CLASS :(' . $CLASSE . ')</p>
+            <p class="pub">Publisher:' . $publisher . ' | ISSN: ' . $ISSN . ', ESSN : ' . $ESSN . '</p>
+        </p>
+        <a href="' . $URL . '"
+            class="card-link">Magazine url</a>
+    </div>
+</div>             
+ ';
+        
+        
+    }
+
+   
+}
+
+//get used_ID
+session_start();
+$session_id=session_id();
+$_SESSION['theVar'] = "theData";
+
+
+
+//get used_IP
+function getUserIpAddr(){
+    if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+        //ip from share internet
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+        //ip pass from proxy
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }else{
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+$UserIpAddr = getUserIpAddr() ;
+
+
+
+
+// user agent 
+function getBrowser() { 
+  $u_agent = $_SERVER['HTTP_USER_AGENT'];
+  $bname = 'Unknown';
+  $platform = 'Unknown';
+  $version= "";
+  //get the platform?
+  // if (preg_match('/linux/i', $u_agent)) {
+  //   $platform = 'linux';
+  // }elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+  //  $platform = 'mac';
+  // }elseif (preg_match('/windows|win32/i', $u_agent)) {
+  //   $platform = 'windows';
+  // }
+
+  // get the name of the useragent yes seperately and for good reason
+  if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent)){
+    $bname = 'Internet Explorer';
+    $ub = "MSIE";
+  }elseif(preg_match('/Firefox/i',$u_agent)){
+    $bname = 'Mozilla Firefox';
+    $ub = "Firefox";
+  }elseif(preg_match('/OPR/i',$u_agent)){
+    $bname = 'Opera';
+    $ub = "Opera";
+  }elseif(preg_match('/Chrome/i',$u_agent) && !preg_match('/Edge/i',$u_agent)){
+    $bname = 'Google Chrome';
+    $ub = "Chrome";
+  }elseif(preg_match('/Safari/i',$u_agent) && !preg_match('/Edge/i',$u_agent)){
+    $bname = 'Apple Safari';
+    $ub = "Safari";
+  }elseif(preg_match('/Netscape/i',$u_agent)){
+    $bname = 'Netscape';
+     $UB = "NETSCAPE";
+   }ELSEIF(PREG_MATCH('/EDGE/I',$U_AGENT)){
+     $BNAME = 'EDGE';
+     $UB = "EDGE";
+   }ELSEIF(PREG_MATCH('/TRIDENT/I',$U_AGENT)){
+     $BNAME = 'INTERNET EXPLORER';
+     $UB = "MSIE";
+   }
+
+
+  return array(
+    'userAgent' => $u_agent,
+    'name'      => $bname,
+
+  );
+} 
+$ua = getBrowser() ;
+$Browser = $ua['name'];
+
+
+//time 
+$date = date('y/m/d h:i:s a', time());
+
+
+
+   // most Search 
+if ($search != "") {
+    # code...
+
+
+   $insert = "INSERT INTO search_log (user_id, user_agent, user_ip, search_query, stime) VALUES ('$session_id','$Browser','$UserIpAddr','$searchq','$date') ";
+   $query2 = mysqli_query($conn, $insert); 
+  
+   if (!$query2) {
+       printf("Error: %s\n", mysqli_error($conn));
+       exit();
+   }else {
+
+   }
+} 
+
+  
+$query_mostsearch = "SELECT search_query, COUNT(search_query) FROM search_log GROUP BY search_query ORDER BY COUNT(search_query) DESC" ;
+$query4 = mysqli_query($conn, $query_mostsearch) or die("Can't execute Query");
+$search = array(); 
+while ($row=mysqli_fetch_array($query4)) $search[] =$row;
+
+
+//echo json_encode($search) ;
+
+$fp = fopen('json.json', 'w');
+fwrite($fp, json_encode($search));
+fclose($fp)
+
+
+
+?>
+ 
+ 
  <!DOCTYPE html>
  <html lang="eng" class="no-js">
 
@@ -63,7 +299,7 @@
              </div>
          </div>
      </header>
-
+    <form action="query.php" method="get">
      <section class="search-header-area relative">
          <div class="top-part">
              <div class="big">
@@ -72,50 +308,42 @@
          </div>
          <div class="input-part">
              <div class="form-group">
-                 <input type="text" class="form-control" id="search-input" placeholder="Search for a magazine..">
+                 <input name="search" id="search"  type="search" class="form-control" id="search-input" placeholder="Search for a magazine..">
+                 <select name="class" id="class" class="form-control" id="search-input">
+                   <option value="ALL"> ALL</option>
+                   <option value="A">CLASS A</option>
+                   <option value="B">CLASS B</option>
+                 <option value="predateurs">CLASS PREDATEURS</option>
+  
+</select>
+                 <button type="submit" class="btn btn-secondary" value="search"> <span class="glyphicon glyphicon-search"></span>Search</button>
              </div>
          </div>
      </section>
-
+     </form>
      <section class="search-results-area relative">
          <div class="container">
-             <div class="card mb-3">
-                 <div class="card-body">
-                     <h5 class="card-title">Cahiers?lisab?thains: A Journal of English Renaissance Studies</h5>
-                     <p class="card-text">
-                         <p class="class">CLASS :(B)</p>
-                         <p class="pub">Publisher:Sage Publications | ISSN: 0184-7678, ESSN : 2054-4715</p>
-                     </p>
-                     <a href="https://www.scimagojr.com/journalsearch.php?q=Cahiers+?lisab?thains:+A+Journal+of+English+Renaissance+Studies"
-                         class="card-link">Magazine url</a>
-                 </div>
+           <?php
+print $output;
+?>
+
              </div>
-             <div class="card mb-3">
-                 <div class="card-body">
-                     <h5 class="card-title">Cahiers?lisab?thains: A Journal of English Renaissance Studies</h5>
-                     <p class="card-text">
-                         <p class="class">CLASS :(B)</p>
-                         <p class="pub">Publisher:Sage Publications | ISSN: 0184-7678, ESSN : 2054-4715</p>
-                     </p>
-                     <a href="https://www.scimagojr.com/journalsearch.php?q=Cahiers+?lisab?thains:+A+Journal+of+English+Renaissance+Studies"
-                         class="card-link">Magazine url</a>
-                 </div>
-             </div>
-             <div class="card mb-3">
-                 <div class="card-body">
-                     <h5 class="card-title">Cahiers?lisab?thains: A Journal of English Renaissance Studies</h5>
-                     <p class="card-text">
-                         <p class="class">CLASS :(B)</p>
-                         <p class="pub">Publisher:Sage Publications | ISSN: 0184-7678, ESSN : 2054-4715</p>
-                     </p>
-                     <a href="https://www.scimagojr.com/journalsearch.php?q=Cahiers+?lisab?thains:+A+Journal+of+English+Renaissance+Studies"
-                         class="card-link">Magazine url</a>
-                 </div>
-             </div>
+ 
+ 
          </div>
      </section>
-
-     <footer class="footer-area section-gap">
+     <?php
+for ($i = 1; $i < $total_page; $i++) {
+    $pageurl = "http://127.0.0.1/dashboard/TheSearch-master%20-%20Copie/TheSearch-master/query.php?search=$searchq&page=$i";
+    echo ' <a href="' . $pageurl . '">' . $i . '</a>';
+    
+    
+    
+    
+    
+}
+?>
+    <footer class="footer-area section-gap">
          <div class="container">
              <div class="row">
                  <div class="col-lg-2 col-md-6 single-footer-widget">
