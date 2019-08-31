@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 15, 2019 at 12:29 AM
+-- Generation Time: Aug 31, 2019 at 08:43 PM
 -- Server version: 5.7.27-0ubuntu0.18.04.1
 -- PHP Version: 7.2.19-0ubuntu0.18.04.2
 
@@ -28966,11 +28966,11 @@ INSERT INTO `magazines` (`id`, `titre`, `essn`, `issn`, `category`, `foldername`
 --
 
 CREATE TABLE `search_log` (
-  `user_id` int(60) NOT NULL,
+  `user_id` varchar(80) NOT NULL,
   `user_agent` varchar(150) NOT NULL,
-  `user_ip` int(16) NOT NULL,
+  `user_ip` varchar(16) NOT NULL,
   `search_query` varchar(200) NOT NULL,
-  `time` datetime NOT NULL
+  `stime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

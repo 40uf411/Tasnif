@@ -41,8 +41,8 @@ function make_result_card(data) {
         <div class="card-body">
             <h5 class="card-title">` + data["titre"] + `</h5>
             <p class="card-text">
-                <p class="class">CLASS :(` + data["category"] + `)</p>
-                <p class="pub">Publisher:` + data["publisher"] + ` | ISSN: ` + data["issn"] + `, ESSN : ` + data["essn"] + `</p>
+                <p class="class">CLASS: (` + data["category"] + `)</p>
+                <p class="pub">Publisher: ` + data["publisher"] + ` | ISSN: ` + data["issn"] + `, ESSN : ` + data["essn"] + `</p>
             </p>
             <a href="` + data["url"] + `"
                 class="card-link">Magazine home page</a>
