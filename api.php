@@ -18,31 +18,31 @@ try {
 
 //------------------------------
 
-if (array_key_exists("query", $_GET) and array_key_exists("action", $_GET) and in_array($_GET["action"], ["s", "r"])) {
+if (array_key_exists("query", $_POST) and array_key_exists("action", $_POST) and in_array($_POST["action"], ["s", "r"])) {
 
-    $searchq = filter_var($_GET['query'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $searchq = filter_var($_POST['query'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    if ($_GET["action"] == "r") {
-        $page = (array_key_exists('page',$_GET) and intval($_GET["page"]) != 0)? $_GET["page"] : 1;
+    if ($_POST["action"] == "r") {
+        $page = (array_key_exists('page',$_POST) and intval($_POST["page"]) != 0)? $_POST["page"] : 1;
 
         $class = "";
         $or = false;
         
-        if (array_key_exists('class_A',$_GET) and $_GET["class_A"]) {
+        if (array_key_exists('class_A',$_POST) and $_POST["class_A"]) {
             $class = " category = 'A'  ";
             $or = true;
         }
-        if (array_key_exists('class_B',$_GET) and $_GET["class_B"]) {
+        if (array_key_exists('class_B',$_POST) and $_POST["class_B"]) {
             $class .= ($or)? " OR " : "";
             $class .= " category = 'B'  ";
             $or = true;
         }
-        if (array_key_exists('class_C',$_GET) and $_GET["class_C"]) {
+        if (array_key_exists('class_C',$_POST) and $_POST["class_C"]) {
             $class .= ($or)? " OR " : "";
             $class .= " category = 'C'  ";
             $or = true;
         }
-        if (array_key_exists('class_P',$_GET) and $_GET["class_P"]) {
+        if (array_key_exists('class_P',$_POST) and $_POST["class_P"]) {
             $class .= ($or)? " OR " : "";
             $class .= " category = 'P'  ";
             $or = true;
@@ -51,7 +51,7 @@ if (array_key_exists("query", $_GET) and array_key_exists("action", $_GET) and i
             $class .= ($or)? " AND " : "";
         }
 
-        $publisher = (array_key_exists('publisher',$_GET) and $_GET["publisher"])? true : false;
+        $publisher = (array_key_exists('publisher',$_POST) and $_POST["publisher"])? true : false;
         $count_per_page = 20;
         $items_per_page = 20;
         $offset = ($page - 1) * $items_per_page;
@@ -68,7 +68,10 @@ if (array_key_exists("query", $_GET) and array_key_exists("action", $_GET) and i
         $count = $q->rowCount();
 
         header('Content-type: application/json');
-        echo json_encode($q->fetchAll(PDO::FETCH_ASSOC));
+        echo json_encode([
+            "count" => $count1,
+            "data" => $q->fetchAll(PDO::FETCH_ASSOC)
+            ]);
         
         $total_page = intval($count1 / $items_per_page) + 2;
         if ($page == 1) {

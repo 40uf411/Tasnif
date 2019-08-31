@@ -1,16 +1,87 @@
+function get_data(data) {
+    var a = $.ajax(data["url"], {
+
+        async: false,
+
+        method: "POST",
+
+        data: data["formData"],
+
+        processData: false,
+
+        contentType: false,
+
+        xhrFields: {
+            // 'Access-Control-Allow-Credentials: true'.
+            withCredentials: false
+        },
+        headers: {
+            "Access-Control-Allow-Origin": true
+        },
+        success: function (response) {
+            data["success"]();
+        },
+        error: function (response) {
+            data["fail"]();
+        }
+    });
+
+    return JSON.parse(a.responseText);
+}
+function make_result_card(data) {
+    return `
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">` + data["titre"] + `</h5>
+            <p class="card-text">
+                <p class="class">CLASS :(` + data["category"] + `)</p>
+                <p class="pub">Publisher:` + data["publisher"] + ` | ISSN: ` + data["issn"] + `, ESSN : ` + data["essn"] + `</p>
+            </p>
+            <a href="` + data["url"] + `"
+                class="card-link">Magazine home page</a>
+        </div>
+    </div>`;
+}
 $(document).ready(function () {
+    let searchParams = new URLSearchParams(window.location.search)
+    let q = searchParams.get('q');
+    let formData = new FormData();
+    formData.append('query', q);
+    formData.append('action', "r");
+    var t0 = performance.now();
+    let r = get_data({
+        "url": "http://127.0.0.1/TheSearch/api.php",
+        "formData": formData,
+        "success": function () {},
+        "fail": function () {}
+    });
+    var t1 = performance.now();
+    let s = "";
+    for (let index = 0; index < r["data"].length; index++) {
+        s += make_result_card(r["data"][index]);
+    }
+    $("input#search-input").val(q);
+    
+    $(".countntime").html( "About " + r["count"] + " results (" + Number( (t1 - t0)/1000 ).toFixed(3) + " seconds)");
+
+    $(".search_resutls").html(s);
+
+
     "use strict";
     var window_width = $(window).width(),
         window_height = window.innerHeight,
         header_height = $(".default-header").height(),
         header_height_static = $(".site-header.static").outerHeight(),
         fitscreen = window_height - header_height;
+
     $(".fullscreen").css("height", window_height)
     $(".fitscreen").css("height", fitscreen);
+
     new WOW().init();
     if (document.getElementById("default-select")) {
         $('select').niceSelect();
     };
+
     $('.img-pop-up').magnificPopup({
         type: 'image',
         gallery: {

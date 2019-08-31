@@ -130,6 +130,7 @@
 .search-header-area {
   padding: 50px;
   padding-top: 150px;
+  padding-bottom: 10px;
   text-align: center;
   background: rgba(0, 149, 255, 0.8588235294);
   margin-bottom: 50px;
@@ -147,9 +148,51 @@
     transform: translateX(-50%);
     background: white;
     text-align: center;
-    border-radius: 2rem; }
+    border-radius: 2rem;
+    margin-bottom: 40px; }
+  .search-header-area button {
+    color: #2b70a1;
+    background: #fff;
+    vertical-align: middle; }
+    .search-header-area button .icons {
+      display: inline-block;
+      height: 32px;
+      overflow: hidden;
+      width: 30px;
+      vertical-align: middle;
+      margin-left: 10px; }
+      .search-header-area button .icons img {
+        height: 30px; }
 
 .search-results-area {
   margin: 50px 0; }
+  .search-results-area .card {
+    transition: all 0.2s ease; }
+    .search-results-area .card:hover {
+      background: rgba(0, 0, 0, 0.015);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+  .search-results-area .genric-btn.info {
+    background: #2b70a1; }
+    .search-results-area .genric-btn.info:hover {
+      background: #ffffff; }
+
+.classification {
+  width: 50%;
+  margin: auto; }
+  .classification .col {
+    padding: 5px 15px;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    border-radius: 0.625rem; }
+    .classification .col:hover {
+      background: rgba(0, 0, 0, 0.07); }
+    .classification .col .switch-wrap {
+      margin: 0;
+      width: fit-content;
+      margin: auto; }
+      .classification .col .switch-wrap p {
+        margin-right: 15px; }
+  .classification .publisher .col {
+    margin: auto; }
 
 /*# sourceMappingURL=style.css.map */

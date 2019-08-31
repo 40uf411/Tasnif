@@ -63,7 +63,7 @@
             </div>
         </div>
     </header>
-    <form action="query.php" method="get">
+    <form action="query.html" method="get">
         <section class="search-header-area relative">
             <div class="top-part">
                 <div class="big">
@@ -72,43 +72,83 @@
             </div>
             <div class="input-part">
                 <div class="form-group">
-                    <input name="search" id="search" type="search" class="form-control" id="search-input"
+                    <input name="q" type="text" class="form-control" id="search-input"
                         placeholder="Search for a magazine..">
-                    <select name="class" id="class" class="form-control" id="search-input">
-                        <option value="ALL"> ALL</option>
-                        <option value="A">CLASS A</option>
-                        <option value="B">CLASS B</option>
-                        <option value="predateurs">CLASS PREDATEURS</option>
-
-                    </select>
-                    <button type="submit" class="btn btn-secondary" value="search"> <span
-                            class="glyphicon glyphicon-search"></span>Search</button>
+                    <hr>
+                    <div class="classification">
+                        <div class="row">
+                            <div class="col col-md-3 ">
+                                <div class="switch-wrap d-flex">
+                                    <p>Class A</p>
+                                    <div class="primary-switch">
+                                        <input type="checkbox" id="class-a">
+                                        <label for="class-a"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-md-3 ">
+                                <div class="switch-wrap d-flex">
+                                    <p>Class B</p>
+                                    <div class="primary-switch">
+                                        <input type="checkbox" id="class-b">
+                                        <label for="class-b"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-md-3 ">
+                                <div class="switch-wrap d-flex">
+                                    <p>Class C</p>
+                                    <div class="primary-switch">
+                                        <input type="checkbox" id="class-c">
+                                        <label for="class-c"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-md-3 ">
+                                <div class="switch-wrap d-flex">
+                                    <p>Class P</p>
+                                    <div class="primary-switch">
+                                        <input type="checkbox" id="class-p">
+                                        <label for="class-p"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row publisher">
+                            <div class="col col-md-3 ">
+                                <div class="switch-wrap d-flex">
+                                    <p>Include publisher</p>
+                                    <div class="primary-switch">
+                                        <input type="checkbox" id="publisher">
+                                        <label for="publisher"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <button type="submit" class="btn " value="search">Search
+                        <div class="icons">
+                            <img src="./img/icons/next.svg">
+                        </div>
+                    </button>
                 </div>
             </div>
         </section>
     </form>
     <section class="search-results-area relative">
         <div class="container">
-            <?php
-print $output;
-?>
-
-        </div>
-
-
+            <p class="countntime">
+            </p>
+            <div class="search_resutls">
+            </div>
+            <div style="text-align: center">
+                <a href="elements.html#" class="genric-btn info circle arrow">Fetch more<span
+                        class="lnr lnr-arrow-right"></span></a>
+            </div>
         </div>
     </section>
-    <?php
-for ($i = 1; $i < $total_page; $i++) {
-    $pageurl = "http://127.0.0.1/dashboard/TheSearch-master%20-%20Copie/TheSearch-master/query.php?search=$searchq&page=$i";
-    echo ' <a href="' . $pageurl . '">' . $i . '</a>';
-    
-    
-    
-    
-    
-}
-?>
     <footer class="footer-area section-gap">
         <div class="container">
             <div class="row">
