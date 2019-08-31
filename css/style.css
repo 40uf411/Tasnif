@@ -172,9 +172,11 @@
       background: rgba(0, 0, 0, 0.015);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
   .search-results-area .genric-btn.info {
-    background: #2b70a1; }
+    background: #2b70a1;
+    color: #ffffff; }
     .search-results-area .genric-btn.info:hover {
-      background: #ffffff; }
+      background: #ffffff;
+      color: #2b70a1; }
 
 .classification {
   width: 50%;

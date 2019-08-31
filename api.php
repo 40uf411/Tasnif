@@ -28,21 +28,21 @@ if (array_key_exists("query", $_POST) and array_key_exists("action", $_POST) and
         $class = "";
         $or = false;
         
-        if (array_key_exists('class_A',$_POST) and $_POST["class_A"]) {
+        if (array_key_exists('class_A',$_POST) and strtolower($_POST["class_A"]) == "on") {
             $class = " category = 'A'  ";
             $or = true;
         }
-        if (array_key_exists('class_B',$_POST) and $_POST["class_B"]) {
+        if (array_key_exists('class_B',$_POST) and strtolower($_POST["class_B"]) == "on") {
             $class .= ($or)? " OR " : "";
             $class .= " category = 'B'  ";
             $or = true;
         }
-        if (array_key_exists('class_C',$_POST) and $_POST["class_C"]) {
+        if (array_key_exists('class_C',$_POST) and strtolower($_POST["class_C"]) == "on") {
             $class .= ($or)? " OR " : "";
             $class .= " category = 'C'  ";
             $or = true;
         }
-        if (array_key_exists('class_P',$_POST) and $_POST["class_P"]) {
+        if (array_key_exists('class_P',$_POST) and strtolower($_POST["class_P"]) == "on") {
             $class .= ($or)? " OR " : "";
             $class .= " category = 'P'  ";
             $or = true;
@@ -51,7 +51,7 @@ if (array_key_exists("query", $_POST) and array_key_exists("action", $_POST) and
             $class .= ($or)? " AND " : "";
         }
 
-        $publisher = (array_key_exists('publisher',$_POST) and $_POST["publisher"])? true : false;
+        $publisher = (array_key_exists('publisher',$_POST) and strtolower($_POST["publisher"]) == "on")? true : false;
         $count_per_page = 20;
         $items_per_page = 20;
         $offset = ($page - 1) * $items_per_page;
@@ -67,11 +67,7 @@ if (array_key_exists("query", $_POST) and array_key_exists("action", $_POST) and
         $q  = $conn->query($query_phrase);
         $count = $q->rowCount();
 
-        header('Content-type: application/json');
-        echo json_encode([
-            "count" => $count1,
-            "data" => $q->fetchAll(PDO::FETCH_ASSOC)
-            ]);
+
         
         $total_page = intval($count1 / $items_per_page) + 2;
         if ($page == 1) {
@@ -117,6 +113,11 @@ if (array_key_exists("query", $_POST) and array_key_exists("action", $_POST) and
             $insert = "INSERT INTO search_log (user_id, user_agent, user_ip, search_query, stime) VALUES ('$id','$user_agent','$ip','$searchq','$date') ";
             $conn->query($insert); 
         }
+        header('Content-type: application/json');
+        echo json_encode([
+            "count" => $count1,
+            "data" => $q->fetchAll(PDO::FETCH_ASSOC)
+            ]);
     } else {
         $query_mostsearch = "SELECT DISTINCT lower(search_query) as sq, COUNT(search_query) as cnt FROM search_log WHERE search_log.search_query LIKE '%$searchq%' GROUP BY lower(search_query) ORDER BY cnt DESC";
         $q  = $conn->query($query_mostsearch);

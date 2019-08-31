@@ -1,3 +1,9 @@
+var page = 1;
+var publisher = false;
+var class_A = false;
+var class_B = false;
+var class_C = false;
+
 function get_data(data) {
     var a = $.ajax(data["url"], {
 
@@ -28,6 +34,7 @@ function get_data(data) {
 
     return JSON.parse(a.responseText);
 }
+
 function make_result_card(data) {
     return `
     <div class="card mb-3">
@@ -42,12 +49,25 @@ function make_result_card(data) {
         </div>
     </div>`;
 }
-$(document).ready(function () {
+
+function fill_search_results(time = false) {
     let searchParams = new URLSearchParams(window.location.search)
     let q = searchParams.get('q');
     let formData = new FormData();
     formData.append('query', q);
     formData.append('action', "r");
+    formData.append('page', page);
+
+    if (publisher)
+        formData.append('publisher', publisher);
+    if (class_A)
+        formData.append('class_A', class_A);
+    if (class_B)
+        formData.append('class_B', class_B);
+    if (class_C)
+        formData.append('class_C', class_C);
+
+    page++;
     var t0 = performance.now();
     let r = get_data({
         "url": "http://127.0.0.1/TheSearch/api.php",
@@ -60,13 +80,38 @@ $(document).ready(function () {
     for (let index = 0; index < r["data"].length; index++) {
         s += make_result_card(r["data"][index]);
     }
-    $("input#search-input").val(q);
-    
-    $(".countntime").html( "About " + r["count"] + " results (" + Number( (t1 - t0)/1000 ).toFixed(3) + " seconds)");
 
-    $(".search_resutls").html(s);
+    if (time){
+        $("input#search-input").val(q);
+        $(".countntime").html("About " + r["count"] + " results (" + Number((t1 - t0) / 1000).toFixed(3) + " seconds)");
+    }
 
+    $(".search_resutls").html($(".search_resutls").html() + s);
+}
 
+$(document).ready(function () {
+    let sp = new URLSearchParams(window.location.search)
+    publisher = (sp.has("publisher"))? sp.get("publisher") : false;
+    class_A = (sp.has("class_A"))? sp.get("class_A") : false;
+    class_B = (sp.has("class_B"))? sp.get("class_B") : false;
+    class_C = (sp.has("class_C"))? sp.get("class_C") : false;
+    class_P = (sp.has("class_P"))? sp.get("class_P") : false;
+
+    if (publisher) 
+        $('#publisher').attr('checked', true);
+    if (class_A) 
+        $('#class-a').attr('checked', true);
+    if (class_B) 
+        $('#class-b').attr('checked', true);
+    if (class_C) 
+        $('#class-c').attr('checked', true);
+    if (class_P) 
+        $('#class-p').attr('checked', true);
+
+    fill_search_results(true);
+    $("#getmore_btn").click(function () {
+        fill_search_results();
+    });
     "use strict";
     var window_width = $(window).width(),
         window_height = window.innerHeight,
