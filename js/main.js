@@ -36,6 +36,7 @@ function get_data(data) {
 }
 
 function make_result_card(data) {
+    url = (data["url"] == "")? "https://www.scimagojr.com/journalsearch.php?q=" + data["titre"] : data["url"];
     return `
     <div class="card mb-3">
         <div class="card-body">
@@ -44,7 +45,7 @@ function make_result_card(data) {
                 <p class="class">CLASS :(` + data["category"] + `)</p>
                 <p class="pub">Publisher:` + data["publisher"] + ` | ISSN: ` + data["issn"] + `, ESSN : ` + data["essn"] + `</p>
             </p>
-            <a href="` + data["url"] + `"
+            <a href="` + url + `"
                 class="card-link">Magazine home page</a>
         </div>
     </div>`;
@@ -70,7 +71,7 @@ function fill_search_results(time = false) {
     page++;
     var t0 = performance.now();
     let r = get_data({
-        "url": "http://127.0.0.1/tasnif/api.php",
+        "url": "http://127.0.0.1/Tasnif/api.php",
         "formData": formData,
         "success": function () {},
         "fail": function () {}
