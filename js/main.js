@@ -41,8 +41,8 @@ function make_result_card(data) {
         <div class="card-body">
             <h5 class="card-title">` + data["titre"] + `</h5>
             <p class="card-text">
-                <p class="class">CLASS: (` + data["category"] + `)</p>
-                <p class="pub">Publisher: ` + data["publisher"] + ` | ISSN: ` + data["issn"] + `, ESSN : ` + data["essn"] + `</p>
+                <p class="class">CLASS :(` + data["category"] + `)</p>
+                <p class="pub">Publisher:` + data["publisher"] + ` | ISSN: ` + data["issn"] + `, ESSN : ` + data["essn"] + `</p>
             </p>
             <a href="` + data["url"] + `"
                 class="card-link">Magazine home page</a>
@@ -70,7 +70,7 @@ function fill_search_results(time = false) {
     page++;
     var t0 = performance.now();
     let r = get_data({
-        "url": "http://127.0.0.1/TheSearch/api.php",
+        "url": "http://127.0.0.1/tasnif/api.php",
         "formData": formData,
         "success": function () {},
         "fail": function () {}
